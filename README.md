@@ -1,6 +1,16 @@
 # CS144 Neural Net Project
 
-CS144 Project: Simple neural net that recognizes handwriting
+CS144 Project: Simple neural net that recognizes handwriting. Thank you to
+[Joseph Redmon](https://pjreddie.com) for his
+[data sets](https://pjreddie.com/projects/mnist-in-csv).
+
+To build the project, run:
+```sh
+$ make
+```
+
+You can also run `make clean` or `make lint`.
+
 
 # License
 

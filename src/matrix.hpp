@@ -1,4 +1,5 @@
 #pragma once
+#include <array>
 #include <iomanip>
 #include <iostream>
 #include <random>
@@ -29,20 +30,6 @@ namespace Matrix {
     template<size_t N, size_t M>
     class Matrix {
     public:
-        Matrix() {
-            _matrix = new double*[N];
-            for (size_t i = 0; i < N; ++i) {
-                _matrix[i] = new double[M];
-            }
-        }
-
-        ~Matrix() {
-            for (size_t i = 0; i < N; ++i) {
-                delete[] _matrix[i];
-            }
-            delete[] _matrix;
-        }
-
         /**
          * Retrieves the row at position idx. If the value of idx is greater or
          * equal to the number of rows, then we throw an out_of_range error.
@@ -51,8 +38,11 @@ namespace Matrix {
          * @return The row at index idx.
          * @throws std::out_of_range
          */
-        Row operator[](const size_t idx) const {
-            if (idx >= N) throw std::out_of_range{"Row index is out of range!"};
+        std::array<double, M>& operator[](const size_t idx) {
+            return _matrix[idx];
+        }
+
+        std::array<double, M> operator[](const size_t idx) const {
             return _matrix[idx];
         }
 
@@ -88,7 +78,7 @@ namespace Matrix {
         }
 
     private:
-        double** _matrix;
+        std::array<std::array<double, M>, N> _matrix;
     };
 
     /**
@@ -164,8 +154,8 @@ namespace Matrix {
         std::uniform_real_distribution<> dis(1, 5);
 
         Matrix<N, M> result;
-        for (int i = 0; i < N; ++i) {
-            for (int j = 0; j < M; ++j) result[i][j] = dis(gen);
+        for (size_t i = 0; i < N; ++i) {
+            for (size_t j = 0; j < M; ++j) result[i][j] = dis(gen);
         }
 
         return result;

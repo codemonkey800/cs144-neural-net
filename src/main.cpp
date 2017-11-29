@@ -1,4 +1,7 @@
 #include <iostream>
+#include <sstream>
+#include <string>
+#include <vector>
 #include "matrix.hpp"
 
 template<typename Arg>
@@ -7,8 +10,5 @@ void print(const Arg& arg) {
 }
 
 int main() {
-    auto mat = Matrix::randomMatrix<3, 2>();
-    print(mat);
-    print(mat.transpose());
 }
 

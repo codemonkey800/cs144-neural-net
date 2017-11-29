@@ -8,8 +8,8 @@ namespace Math {
     }
 
     template<size_t N, size_t M>
-    Matrix::Matrix<double, N, M> sigmoid(const Matrix::Matrix<double, N, M>& matrix) {
-        Matrix::Matrix<double, N, M> result;
+    Matrix::Matrix<N, M> sigmoid(const Matrix::Matrix<N, M>& matrix) {
+        Matrix::Matrix<N, M> result;
 
         for (int i = 0; i < N; ++i) {
             for (int j = 0; j < M; ++j) {

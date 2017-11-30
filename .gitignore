@@ -1,6 +1,9 @@
 # Build dir
 build
 
+# Weights file
+weights.data
+
 # Created by https://www.gitignore.io/api/c++
 
 ### C++ ###

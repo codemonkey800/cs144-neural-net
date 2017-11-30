@@ -3,17 +3,21 @@
 #include "matrix.hpp"
 
 namespace Math {
-    inline double sigmoid(const double x) {
+    inline double sigmoid(const double x, const bool derivative = false) {
+        if (derivative) return sigmoid(x) * (1 - sigmoid(x));
         return 1.0 / (1.0 + std::exp(-x));
     }
 
     template<size_t N, size_t M>
-    Matrix::Matrix<N, M> sigmoid(const Matrix::Matrix<N, M>& matrix) {
-        Matrix::Matrix<N, M> result;
+    Matrix::Matrix<double, N, M> sigmoid(
+        const Matrix::Matrix<double, N, M>& matrix,
+        const bool derivative = false
+    ) {
+        Matrix::Matrix<double, N, M> result{};
 
-        for (int i = 0; i < N; ++i) {
-            for (int j = 0; j < M; ++j) {
-                result[i][j] = sigmoid(matrix[i][j]);
+        for (size_t i = 0; i < N; ++i) {
+            for (size_t j = 0; j < M; ++j) {
+                result[i][j] = sigmoid(matrix[i][j], derivative);
             }
         }
 

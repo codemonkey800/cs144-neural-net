@@ -7,7 +7,7 @@ namespace NeuralNetwork {
 
     struct TrainingInput {
         int label;
-        Matrix::Matrix<IMAGE_SIZE, IMAGE_SIZE> image;
+        Matrix::Matrix<double, IMAGE_SIZE, IMAGE_SIZE> image;
     };
 
     using TrainingSet = std::vector<TrainingInput>;
@@ -18,7 +18,7 @@ namespace NeuralNetwork {
         NeuralNetwork(const double learningRate) : _learningRate{learningRate} {
         }
 
-        int query(const Matrix::ColumnVector<Input>& input) const {
+        int query(const Matrix::ColumnVector<double, Input>& input) const {
         }
 
         void train(const TrainingSet& trainingSet) {
@@ -27,8 +27,8 @@ namespace NeuralNetwork {
     private:
         double _learningRate;
 
-        Matrix::Matrix<Input, Hidden> _inputWeights;
-        Matrix::Matrix<Hidden, Output> _hiddenWeights;
+        Matrix::Matrix<double, Input, Hidden> _inputWeights;
+        Matrix::Matrix<double, Hidden, Output> _hiddenWeights;
     };
 } // NeuralNetwork
 

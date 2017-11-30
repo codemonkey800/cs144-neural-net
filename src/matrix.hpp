@@ -120,24 +120,49 @@ namespace Matrix {
     }
 
     /**
-     * Multiplies a matrix `matrix` by a scalar value of the same entry type
-     * `T`.
+     * Calculates the Hadamard product of two matrices. That is, `A ^ B` for
+     * matrices `A` and `B` will result in an element-wise matrix product of
+     * size `N*M`. Conventially, the Hadamard product is represented with an
+     * empty circle, but in the context of C++, we'll use ^.
      *
      * @tparam T The Matrix entry type.
-     * @tparam N The row count for the matrix.
-     * @tparam M The column count for the matrix.
-     * @param matrix The matrix.
-     * @param scalar The scalar to multiply the each entry `(i, j)` by.
-     * @return The result of `matrix1 - matrix2`.
+     * @tparam N The row count for the matrices.
+     * @tparam M The column count for the matrices.
+     * @param matrix1 The first matrix.
+     * @param matrix2 The second matrix.
+     * @return The Hadamard product of `matrix1` and `matrix2`.
      */
     template<typename T, size_t N, size_t M>
-    Matrix<T, N, M> operator*(const Matrix<T, N, M>& matrix, const T& scalar) {
+    Matrix<T, N, M> operator^(const Matrix<T, N, M>& matrix1, const Matrix<T, N, M>& matrix2) {
         Matrix<T, N, M> result{};
 
         for (size_t i = 0; i < N; ++i) {
             for (size_t j = 0; j < M; ++j) {
-                result[i][j] = matrix[i][j] * scalar;
+                result[i][j] = matrix1[i][j] * matrix2[i][j];
             }
+        }
+
+        return result;
+    }
+
+    /**
+     * Multiplies a scalar value of Matrix entry type `T` to each entry in the
+     * matrix.
+     *
+     * @tparam T The Matrix entry type.
+     * @tparam N The row count for the matrix.
+     * @tparam M The column count for the matrix.
+     * @param scalar The scalar to multiply the each entry `(i, j)` by.
+     * @param matrix The matrix.
+     * @return The result of `matrix1 - matrix2`.
+     */
+    template<typename T, size_t N, size_t M>
+    Matrix<T, N, M> operator*(const T& scalar, const Matrix<T, N, M>& matrix) {
+        Matrix<T, N, M> result{};
+
+        for (size_t i = 0; i < N; ++i) {
+            for (size_t j = 0; j < M; ++j) result[i][j] = matrix[i][j] * scalar;
+
         }
 
         return result;
@@ -167,13 +192,17 @@ namespace Matrix {
                 // column of matrix2.  Since we're doing a dot product between
                 // the row and column, we're continually adding the product of
                 // the k-th element in the row and column.
-                for (size_t k = 0; k < K; ++k) {
-                    result[i][j] += matrix1[i][k] * matrix2[k][j];
-                }
+                for (size_t k = 0; k < K; ++k) result[i][j] += matrix1[i][k] * matrix2[k][j];
+
             }
         }
 
         return result;
+    }
+
+    template<size_t N, size_t M>
+    Matrix<double, N, M> operator-(const Matrix<double, N, M>& matrix) {
+        return -1.0 * matrix;
     }
 
     /**

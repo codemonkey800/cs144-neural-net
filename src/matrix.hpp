@@ -5,17 +5,11 @@
 #include <random>
 #include <stdexcept>
 
-/**
- * Namespace containing the matrix class, a type alias for matrix rows, and a
- * matrix multiplication incompatible exception.
- */
 namespace Matrix {
-    using Row = double*;
-
     class IncompatibleMultiplicationError : public std::logic_error {
     public:
         IncompatibleMultiplicationError()
-            : std::logic_error{"The matrices are incompatbile! Check the rows and columns."} {
+            : std::logic_error{"The matrices are incompatbile!"} {
         }
     };
 
@@ -27,22 +21,14 @@ namespace Matrix {
      * @tparam N The number of rows.
      * @tparam M The number of columns.
      */
-    template<size_t N, size_t M>
+    template<typename T, size_t N, size_t M>
     class Matrix {
     public:
-        /**
-         * Retrieves the row at position idx. If the value of idx is greater or
-         * equal to the number of rows, then we throw an out_of_range error.
-         *
-         * @param idx The index of the row.
-         * @return The row at index idx.
-         * @throws std::out_of_range
-         */
-        std::array<double, M>& operator[](const size_t idx) {
+        std::array<T, M>& operator[](const size_t idx) {
             return _matrix[idx];
         }
 
-        std::array<double, M> operator[](const size_t idx) const {
+        std::array<T, M> operator[](const size_t idx) const {
             return _matrix[idx];
         }
 
@@ -54,8 +40,8 @@ namespace Matrix {
          * @tparam N The columns of the result matrix, which is the rows of this matrix.
          * @return The transpose of this matrix.
          */
-        Matrix<M, N> transpose() const {
-            Matrix<M, N> result;
+        Matrix<T, M, N> transpose() const {
+            Matrix<T, M, N> result{};
 
             for (size_t i = 0; i < N; ++i) {
                 for (size_t j = 0; j < M; ++j) {
@@ -85,8 +71,8 @@ namespace Matrix {
      * A column vector can be considered a matrix of N rows and 1 column. This
      * is used for the input when querying the network.
      */
-    template<size_t N>
-    using ColumnVector = Matrix<N, 1>;
+    template<typename T, size_t N>
+    using ColumnVector = Matrix<T, N, 1>;
 
     /**
      * Prints the matrix in the following form:
@@ -100,8 +86,8 @@ namespace Matrix {
      * @param out The output stream to print the matrix to.
      * @param matrix The matrix to print.
      */
-    template<size_t N, size_t M>
-    std::ostream& operator<<(std::ostream& out, const Matrix<N, M>& matrix) {
+    template<typename T, size_t N, size_t M>
+    std::ostream& operator<<(std::ostream& out, const Matrix<T, N, M>& matrix) {
         for (size_t i = 0; i < N; ++i) {
             for (size_t j = 0; j < M; ++j) {
                 out << matrix[i][j];
@@ -122,9 +108,9 @@ namespace Matrix {
      * @param matrix The matrix to multiply to.
      * @return A new matrix holding the matrix product.
      */
-    template<size_t N, size_t K, size_t M>
-    Matrix<N, M> operator*(const Matrix<N, K>& matrix1, const Matrix<K, M>& matrix2) {
-        Matrix<N, M> result;
+    template<typename T, size_t N, size_t K, size_t M>
+    Matrix<T, N, M> operator*(const Matrix<T, N, K>& matrix1, const Matrix<T, K, M>& matrix2) {
+        Matrix<T, N, M> result{};
 
         // Standard O(n^3) algorithm for finding the matrix product. Here, we
         // iterate through the rows and columns of the matrix product.
@@ -148,12 +134,12 @@ namespace Matrix {
      * value.
      */
     template<size_t N, size_t M>
-    Matrix<N, M> randomMatrix() {
+    Matrix<double, N, M> randomMatrix() {
         std::random_device rd;
         std::mt19937 gen{rd()};
         std::uniform_real_distribution<> dis(1, 5);
 
-        Matrix<N, M> result;
+        Matrix<double, N, M> result{};
         for (size_t i = 0; i < N; ++i) {
             for (size_t j = 0; j < M; ++j) result[i][j] = dis(gen);
         }

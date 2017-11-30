@@ -8,6 +8,12 @@
 namespace Matrix {
     /**
      * Class representing a matrix of size `N * M` with entries of type `T`.
+     * All of the matrix calculations are immutable and therefore create new
+     * matrix instances containing the results of the calculation.
+     *
+     * For example, multiplying a `N * K` matrix by a `K * M` matrix will
+     * result in a completely new matrix of size `N * M`, with the original
+     * matrices being left untouched.
      *
      * @tparam T The Matrix entry type.
      * @tparam N The number of rows.

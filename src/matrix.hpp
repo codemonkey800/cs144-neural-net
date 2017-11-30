@@ -71,13 +71,6 @@ namespace Matrix {
     };
 
     /**
-     * A column vector can be considered a matrix of `N` rows and 1 column. This
-     * is used for the input when querying the network.
-     */
-    template<typename T, size_t N>
-    using ColumnVector = Matrix<T, N, 1>;
-
-    /**
      * Prints the matrix in the following form:
      *   1  2  3  4
      *   5  6  7  8
@@ -94,7 +87,7 @@ namespace Matrix {
         for (size_t i = 0; i < N; ++i) {
             for (size_t j = 0; j < M; ++j) {
                 out << matrix[i][j];
-                if (j < M - 1) out << std::setw(15);
+                if (j < M - 1) out << std::setw(5);
             }
             out << std::endl;
         }

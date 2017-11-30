@@ -41,7 +41,7 @@ namespace Math {
 
     /**
      * Applies the sigmoid or sigmoid derivative to each value in a matrix of
-     * size N*M
+     * size `N * M`
      *
      * @param matrix The matrix to apply sigmoid to.
      * @param derivative If false, f(x). Else, f'(x). By default, this is false.

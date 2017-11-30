@@ -7,7 +7,7 @@
 
 namespace Matrix {
     /**
-     * Class representing a matrix of size `N*M` with entries of type `T`.
+     * Class representing a matrix of size `N * M` with entries of type `T`.
      *
      * @tparam T The Matrix entry type.
      * @tparam N The number of rows.
@@ -97,7 +97,7 @@ namespace Matrix {
     /**
      * Calculates the Hadamard product of two matrices. That is, `A ^ B` for
      * matrices `A` and `B` will result in an element-wise matrix product of
-     * size `N*M`. Conventially, the Hadamard product is represented with an
+     * size `N * M`. Conventially, the Hadamard product is represented with an
      * empty circle, but in the context of C++, we'll use ^.
      *
      * @tparam T The Matrix entry type.
@@ -188,7 +188,7 @@ namespace Matrix {
     }
 
     /**
-     * Constructs a matrix of size `N*M` with all values initialized to a
+     * Constructs a matrix of size `N * M` with all values initialized to a
      * random real value between -1 and 1. If the weight at position `(i, j)`
      * is 0, then we increment that weight by 0.01.
      *

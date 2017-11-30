@@ -97,7 +97,7 @@ Neural Network Stats:
   Matching time: 320944ms
 ```
 
-### Trained Weights from Test Data
+### Trained Weights from Training Data
 
 #### Comparing Against Test data
 

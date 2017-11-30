@@ -11,7 +11,7 @@
 namespace NeuralNetwork {
     /**
      * A matrix with one column and `N` rows is essentially a column vector.
-     * The column vector is useful in several in the training algorithm.
+     * The column vector is useful in the training algorithm.
      *
      * @tparam N The size of the column vector.
      */

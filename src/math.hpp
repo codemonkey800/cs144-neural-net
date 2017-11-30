@@ -9,6 +9,7 @@ namespace Math {
      * adding 0.01 to shift the range to [0.01, 1.0].
      *
      * @param pixel The pixel value in range [0, 255].
+     * @return The pixel normalized to be in the range [0.01, 1.0].
      */
     inline double normalizePixel(const int pixel) {
         return (static_cast<double>(pixel) / 255.0) * 0.99 + 0.01;
@@ -32,7 +33,7 @@ namespace Math {
      *
      * @param x The value to calculate f(x) or f'(x).
      * @param derivative If false, return f(x). Else, return f'(x). By default, this is false.
-     * @returns The result of f(x) or f'(x).
+     * @return The result of f(x) or f'(x).
      */
     inline double sigmoid(const double x, const bool derivative = false) {
         if (derivative) return sigmoid(x) * (1 - sigmoid(x));

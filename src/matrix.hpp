@@ -71,31 +71,6 @@ namespace Matrix {
     };
 
     /**
-     * Prints the matrix in the following form:
-     *   1  2  3  4
-     *   5  6  7  8
-     *   9 10 11 12
-     *
-     * A newline is not appened, therefore the user would have to add it
-     * manually.
-     *
-     * @param out The output stream to print the matrix to.
-     * @param matrix The matrix to print.
-     */
-    template<typename T, size_t N, size_t M>
-    std::ostream& operator<<(std::ostream& out, const Matrix<T, N, M>& matrix) {
-        for (size_t i = 0; i < N; ++i) {
-            for (size_t j = 0; j < M; ++j) {
-                out << matrix[i][j];
-                if (j < M - 1) out << std::setw(5);
-            }
-            if (i < N - 1) out << std::endl;
-        }
-
-        return out;
-    }
-
-    /**
      * Subtracts a `matrix1` by `matrix2`. The two matrices must have the same
      * dimensions, otherwise there'd be a compile time error.
      *
@@ -200,6 +175,13 @@ namespace Matrix {
         return result;
     }
 
+    /**
+     * Negates the matrix. Multiplies every entry by -1.
+     *
+     * @tparam N The number of rows.
+     * @tparam M The number of columns.
+     * @return A new matrix which is the original matrix but with all negated values.
+     */
     template<size_t N, size_t M>
     Matrix<double, N, M> operator-(const Matrix<double, N, M>& matrix) {
         return -1.0 * matrix;

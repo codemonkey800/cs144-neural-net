@@ -6,38 +6,44 @@
 #include <stdexcept>
 
 namespace Matrix {
-    class IncompatibleMultiplicationError : public std::logic_error {
-    public:
-        IncompatibleMultiplicationError()
-            : std::logic_error{"The matrices are incompatbile!"} {
-        }
-    };
-
     /**
-     * Class representing a matrix of size N*M. The class is bare and doesn't
-     * support all matrix operations. Rather, the API is kept to the minimum
-     * required algorithms for the neural net.
+     * Class representing a matrix of size `N*M` with entries of type `T`.
      *
+     * @tparam T The Matrix entry type.
      * @tparam N The number of rows.
      * @tparam M The number of columns.
      */
     template<typename T, size_t N, size_t M>
     class Matrix {
     public:
+        /**
+         * Gets the row of the matrix located at index `idx`.
+         *
+         * @param idx The index of the row.
+         * @throws std::out_of_range
+         * @return The `idx`-th row.
+         */
         std::array<T, M>& operator[](const size_t idx) {
-            return _matrix[idx];
-        }
-
-        std::array<T, M> operator[](const size_t idx) const {
+            if (idx >= N) throw std::out_of_range{"`idx` is out of range!"};
             return _matrix[idx];
         }
 
         /**
-         * Transposes the current matrix. That is, for every entry (i, j), we
-         * swap it with its corresponding entry, (j, i).
+         * Gets a constant reference to the row of the matrix.
          *
-         * @tparam M The rows of the result matrix, which is the columns of this matrix.
-         * @tparam N The columns of the result matrix, which is the rows of this matrix.
+         * @param idx The index of the row.
+         * @throws std::out_of_range
+         * @return The `idx`-th row.
+         */
+        const std::array<T, M>& operator[](const size_t idx) const {
+            if (idx >= N) throw std::out_of_range{"`idx` is out of range!"};
+            return _matrix[idx];
+        }
+
+        /**
+         * Transposes the current matrix. That is, for every entry `(i, j)`, we
+         * swap it with its corresponding entry, `(j, i)`.
+         *
          * @return The transpose of this matrix.
          */
         Matrix<T, M, N> transpose() const {
@@ -52,23 +58,20 @@ namespace Matrix {
             return result;
         }
 
-        /*
-         * Accessor functions for the rows and cols.
-         */
-        size_t rows() const noexcept {
+        constexpr size_t rows() const noexcept {
             return N;
         }
 
-        size_t cols() const noexcept {
+        constexpr size_t cols() const noexcept {
             return M;
         }
 
     private:
-        std::array<std::array<double, M>, N> _matrix;
+        std::array<std::array<T, M>, N> _matrix;
     };
 
     /**
-     * A column vector can be considered a matrix of N rows and 1 column. This
+     * A column vector can be considered a matrix of `N` rows and 1 column. This
      * is used for the input when querying the network.
      */
     template<typename T, size_t N>
@@ -91,7 +94,7 @@ namespace Matrix {
         for (size_t i = 0; i < N; ++i) {
             for (size_t j = 0; j < M; ++j) {
                 out << matrix[i][j];
-                if (j < M - 1) out << std::setw(10);
+                if (j < M - 1) out << std::setw(15);
             }
             out << std::endl;
         }
@@ -102,9 +105,12 @@ namespace Matrix {
     /**
      * Multiplies the current matrix by another matrix. The two matrices must
      * be compatible in the sense that the columns this matrix must be equal to
-     * the rows in the second matrix. If they are not, the
-     * Matrix::IncompatibleMultiplicationError will be thrown.
+     * the rows in the second matrix.
      *
+     * @tparam T The Matrix entry type.
+     * @tparam N The row count for the first matrix.
+     * @tparam K The column count and row count for the first and second matrices, respectively.
+     * @tparam M The column count for the second matrix.
      * @param matrix The matrix to multiply to.
      * @return A new matrix holding the matrix product.
      */
@@ -130,18 +136,26 @@ namespace Matrix {
     }
 
     /**
-     * Constructs a matrix of size N*m with all values initialized to a random
-     * value.
+     * Constructs a matrix of size `N*M` with all values initialized to a
+     * random real value between -1 and 1. If the weight at position `(i, j)`
+     * is 0, then we increment that weight by 0.01.
+     *
+     * @tparam N The number of rows.
+     * @tparam M The numbero f columns.
+     * @return A new matrix with random values between -1 and 1.
      */
     template<size_t N, size_t M>
     Matrix<double, N, M> randomMatrix() {
         std::random_device rd;
         std::mt19937 gen{rd()};
-        std::uniform_real_distribution<> dis(1, 5);
+        std::uniform_real_distribution<> dis(-1, 1);
 
         Matrix<double, N, M> result{};
         for (size_t i = 0; i < N; ++i) {
-            for (size_t j = 0; j < M; ++j) result[i][j] = dis(gen);
+            for (size_t j = 0; j < M; ++j) {
+                result[i][j] = dis(gen);
+                if (result[i][j] == 0) result[i][j] += 0.01;
+            }
         }
 
         return result;

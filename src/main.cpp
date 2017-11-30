@@ -10,5 +10,9 @@ void print(const Arg& arg) {
 }
 
 int main() {
+    auto mat = Matrix::randomMatrix<2, 3>();
+    print(mat);
+    print(mat.transpose());
+    print(mat * mat.transpose());
 }
 

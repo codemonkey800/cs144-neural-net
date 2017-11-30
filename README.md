@@ -2,6 +2,15 @@
 
 CS144 Project: Simple neural net that recognizes handwriting.
 
+## Emoji Index :heart_eyes:
+I've recently started using Emojis in a lot of my commit messages, READMEs, and
+wherever I can on GitHub. Here's what each emoji I use represents. It may be
+subject to change:
+
+- :tada: - Commits that include something so amazing that I have to celebrate :tada:
+- :wrench: - Commits that are relatively small to medium in size
+- :warning: - Commits that introduce configs or code that break things
+
 ## Data Sets
 Thank you to [Joseph Redmon](https://pjreddie.com) for his
 [data sets](https://pjreddie.com/projects/mnist-in-csv).
@@ -55,15 +64,64 @@ unless the weights file can't be read or parsed.
 The weights can end up being unparseable if some data fails to write to the file or if the
 network parameters or test data are changed, but the weights aren't.
 
-## Emoji Index :heart_eyes:
-I've recently started using Emojis in a lot of my commit messages, READMEs, and
-wherever I can on GitHub. Here's what each emoji I use represents. It may be
-subject to change:
+## Results
 
-- :tada: - Commits that include something so amazing that I have to celebrate :tada:
-- :wrench: - Commits that are relatively small to medium in size
-- :warning: - Commits that introduce configs or code that break things
+The following results were computed inside an Arch Linux virtual machine
+running in VMWare Workstation 14. The VM has 1 vCPU and 2 vCores. My host
+desktop has an i7-5820K overclocked to 4.2GHz. Thus, computation times may
+vary.
 
+### Trained Weights from Test Data
+
+#### Comparing Against Test data
+
+```sh
+$ cp weights/test.data weights.data
+$ build/project -l < data/mnist_test.csv
+Neural Network Stats:
+  Matches: 9129 / 10000 (91.29%)
+  Parsing time: 674ms
+  Training time: 841ms
+  Matching time: 52030ms
+```
+
+#### Comparing Against Training data
+
+```sh
+$ cp weights/test.data weights.data
+$ build/project -l < data/mnist_train.csv
+Neural Network Stats:
+  Matches: 53447 / 60000 (89.08%)
+  Parsing time: 3831ms
+  Training time: 694ms
+  Matching time: 320944ms
+```
+
+### Trained Weights from Test Data
+
+#### Comparing Against Test data
+
+```sh
+$ cp weights/train.data weights.data
+$ build/project -l < data/mnist_test.csv
+Neural Network Stats:
+  Matches: 9422 / 10000 (94.22%)
+  Parsing time: 641ms
+  Training time: 730ms
+  Matching time: 51796ms
+```
+
+#### Comparing Against Training data
+
+```sh
+$ cp weights/train.data weights.data
+$ build/project -l < data/mnist_train.csv
+Neural Network Stats:
+  Matches: 56940 / 60000 (94.90%)
+  Parsing time: 3806ms
+  Training time: 1027ms
+  Matching time: 317144ms
+```
 
 ## License
 

@@ -11,7 +11,7 @@ all: $(DEST)/$(BIN)
 clean:
 	@rm -rfv $(DEST)
 
-lint: $(wildcard src/*.cpp src/*.h src/*.hpp)
+lint: $(wildcard src/*)
 	$(CXX) $(CXXFLAGS) -fsyntax-only $^
 
 $(DEST)/$(BIN): $(OBJ)

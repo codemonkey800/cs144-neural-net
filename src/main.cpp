@@ -6,9 +6,26 @@
 #include <sstream>
 #include <string>
 #include <vector>
-#include "math.hpp"
-#include "matrix.hpp"
-#include "neuralnet.hpp"
+#include "matrix.h"
+#include "matrix.cpp"
+#include "neuralnet.h"
+#include "neuralnet.cpp"
+
+/**
+ * Takes a pixel value in [0, 255] and "normalizes" it. This is done by dividing
+ * the pixel value by 255, multiplying it by 0.99 for scale, and then
+ * adding 0.01 to shift the range to [0.01, 1.0].
+ *
+ * @param pixel The pixel value in range [0, 255].
+ * @return The pixel normalized to be in the range [0.01, 1.0].
+ */
+inline double normalizePixel(const int pixel) {
+    return (static_cast<double>(pixel) / 255.0) * 0.99 + 0.01;
+}
+
+inline double percentage(const double count, const double total) {
+    return count / total;
+}
 
 /**
  * Parses the current line as a training label. The training label contains the
@@ -40,7 +57,7 @@ NeuralNetwork::TrainingLabel<InputSize, OutputSize> parseInput(const std::string
     for (size_t i = 0; i < InputSize; ++i) {
         std::getline(stream, token, ',');
         int pixel = std::stoi(token);
-        trainingLabel.input[i][0] = Math::normalizePixel(pixel);
+        trainingLabel.input[i][0] = normalizePixel(pixel);
     }
 
     return trainingLabel;
@@ -95,8 +112,8 @@ size_t countCorrectPredictions(
         // number of matches, as well as their percentages out of the total.
         std::printf(
             "\rCounting Correct Predictions: %ld / %ld (%.2f%%), %ld matches (%.2f%%)",
-            labelNumber, trainingSetSize, Math::percentage(labelNumber, trainingSetSize),
-            count, Math::percentage(count, trainingSetSize)
+            labelNumber, trainingSetSize, percentage(labelNumber, trainingSetSize),
+            count, percentage(count, trainingSetSize)
         );
         // We flush the output so that the cursor stays at the end of the
         // console. If this line is missing, the cursor will constantly appear
@@ -198,7 +215,7 @@ int main(const int argc, const char* argv[]) {
     std::cout << "Neural Network Stats:" << std::endl;
     std::printf(
         "  Matches: %ld / %ld (%.2f%%)\n",
-        matches, trainingSetSize, Math::percentage(matches, trainingSetSize)
+        matches, trainingSetSize, percentage(matches, trainingSetSize)
     );
     std::cout << "  Parsing time: " << parseTime.count() << "ms" << std::endl
               << "  Training time: " << trainTime.count() << "ms" << std::endl

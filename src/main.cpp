@@ -24,7 +24,7 @@ inline double normalizePixel(const int pixel) {
 }
 
 inline double percentage(const double count, const double total) {
-    return count / total;
+    return count / total * 100.0;
 }
 
 /**

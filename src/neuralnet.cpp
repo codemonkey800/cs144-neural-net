@@ -116,7 +116,7 @@ namespace NeuralNetwork {
             "\r%s: %ld / %ld (%.2f%%)",
             title.c_str(),
             count, total,
-            static_cast<double>(count) / static_cast<double>(total)
+            static_cast<double>(count) / static_cast<double>(total) * 100.0
         );
         std::cout << std::flush;
     }

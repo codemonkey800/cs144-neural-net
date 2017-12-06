@@ -107,6 +107,8 @@ namespace NeuralNetwork {
         Weights<HiddenSize, InputSize> _inputWeights;
         Weights<OutputSize, HiddenSize> _hiddenWeights;
 
+        ColumnVector<InputSize> prepareInput(const ColumnVector<InputSize>& input) const;
+
         /**
          * Prints a message if verbose output is enabled.
          *

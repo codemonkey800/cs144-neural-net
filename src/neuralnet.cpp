@@ -2,6 +2,8 @@
 #include <cstdio>
 #include <iostream>
 #include <stdexcept>
+#include "activation.h"
+#include "activation.cpp"
 #include "neuralnet.h"
 #include "matrix.cpp"
 
@@ -16,8 +18,9 @@ namespace NeuralNetwork {
 
     template<size_t InputSize, size_t HiddenSize, size_t OutputSize>
     size_t NeuralNetwork<InputSize, HiddenSize, OutputSize>::query(const ColumnVector<InputSize>& input) const {
-        auto hiddenOutput = Matrix::sigmoid(_inputWeights * input);
-        auto output = Matrix::sigmoid(_hiddenWeights * hiddenOutput);
+        ActivationFunction activator{};
+        auto hiddenOutput = activator.activate(_inputWeights * input);
+        auto output = activator.activate(_hiddenWeights * hiddenOutput);
 
         // Pick result with highest probability of happening. It is up to
         // the caller of the API to interpret the result meaning in the
@@ -33,6 +36,8 @@ namespace NeuralNetwork {
 
     template<size_t InputSize, size_t HiddenSize, size_t OutputSize>
     void NeuralNetwork<InputSize, HiddenSize, OutputSize>::train(const TrainingSet<InputSize, OutputSize>& trainingSet) {
+        ActivationFunction activator{};
+
         // These values are used for percentages when verbose output is enabled.
         size_t labelNumber = 1;
         auto trainingSetSize = trainingSet.size();
@@ -41,21 +46,20 @@ namespace NeuralNetwork {
             // First we preprare the input to the hidden layer and its
             // output using the sigmoid function.
             auto hiddenInput = _inputWeights * trainingLabel.input;
-            auto hiddenOutput = Matrix::sigmoid(hiddenInput);
+            auto hiddenOutput = activator.activate(hiddenInput);
 
             // Next, we prepare the input to the output layer as well as
             // its output.
             auto outputInput = _hiddenWeights * hiddenOutput;
-            auto output = Matrix::sigmoid(outputInput);
-
+            auto output = activator.activate(outputInput);
 
             // Now, we calculate how far off we are and backpropogate those errors.
             auto outputErrors = trainingLabel.label - output;
             auto hiddenErrors = _hiddenWeights.transpose() * outputErrors;
 
             // Calculate the derivatives of the error functions.
-            auto outputErrorsDerivative = (-outputErrors ^ Matrix::sigmoid(outputInput, true)) * hiddenOutput.transpose();
-            auto hiddenErrorsDerivative = (-hiddenErrors ^ Matrix::sigmoid(hiddenInput, true)) * trainingLabel.input.transpose();
+            auto outputErrorsDerivative = (-outputErrors ^ activator.activate(outputInput, true)) * hiddenOutput.transpose();
+            auto hiddenErrorsDerivative = (-hiddenErrors ^ activator.activate(hiddenInput, true)) * trainingLabel.input.transpose();
 
             // Update the weights using the derivatives from earlier.
             // Gradient descent slowly minimizes the error over time after

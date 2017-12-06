@@ -123,19 +123,5 @@ namespace Matrix {
 
         return result;
     }
-
-    template<size_t N, size_t M>
-    Matrix<double, N, M> sigmoid(const Matrix<double, N, M>& matrix, const bool derivative) {
-        Matrix<double, N, M> result{};
-
-        for (size_t i = 0; i < N; ++i) {
-            for (size_t j = 0; j < M; ++j) {
-                auto sig = 1.0 / (1.0 + std::exp(-matrix[i][j]));
-                result[i][j] = derivative ? sig * (1 - sig) : sig;
-            }
-        }
-
-        return result;
-    }
 } // Matrix
 

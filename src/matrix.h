@@ -43,6 +43,7 @@ namespace Matrix {
          * @return The transpose of this matrix.
          */
         Matrix<T, M, N> transpose() const;
+
     private:
         std::array<std::array<T, M>, N> _matrix;
     };
@@ -127,16 +128,5 @@ namespace Matrix {
      */
     template<size_t N, size_t M>
     Matrix<double, N, M> randomMatrix();
-
-    /**
-     * Applies the sigmoid function to every matrix entry. If the value
-     * `derivative` is true, then the sigmoid derivative will be applied to
-     * each value.
-     *
-     * @param derivative If true, use sigmoid derivative. Regular sigmoid otherwise.
-     * @return The sigmoid of the matrix.
-     */
-    template<size_t N, size_t M>
-    Matrix<double, N, M> sigmoid(const Matrix<double, N, M>& matrix, const bool derivative = false);
 } // Matrix
 

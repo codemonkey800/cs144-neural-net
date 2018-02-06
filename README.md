@@ -1,17 +1,6 @@
-# CS144 Neural Net Project - Actual Submission Branch
+# CS144 Neural Net Project
 
 CS144 Project: Simple neural net that recognizes handwriting.
-
-## Actual Submission Branch
-
-What is this branch you may ask? Well, my professor specifically asked for a
-separation between interface and implementation using a `.h` and `.cpp` file
-combo.
-
-I made heavy use of templates in my project, and I'm all for header only
-implementations. However, I still am working for a good grade on this project.
-Therefore, this branch contains the refactored code tailored to my professor's
-assignment requirements.
 
 ## Emoji Index :heart_eyes:
 I've recently started using Emojis in a lot of my commit messages, READMEs, and
